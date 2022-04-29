@@ -1,0 +1,162 @@
+#include <iostream>
+#include <string>
+#include <cstring>
+#include <time.h>
+#include <cstdlib>
+using namespace std;
+
+bool isequal(string str1, char *str2) // compares string and character type array. returns 1 if theyre equal
+{
+    int i = 0;
+    int len1 = str1.length();
+    int len2 = strlen(str2);
+
+    if (len1 != len2)
+        return 0;
+
+    for (int i = 0; i < len1 || i < len2; i++)
+    {
+        if (str1[i] != str2[i])
+            return false;
+    }
+
+    return true;
+}
+
+string answers[44] = {"askew", "avenue", "bayou", "beekeeper", "blitz", "affixavenue", "awkward", "beekeeper", "boggle", " cobweb", "cycle", " disavow", "duplex", "equip", " exodus", "funny", " galaxy", " gossip", " icebox", "injury", "ivory", "jackpot", "jelly",
+                      "jockey", " joking", " joyful", "jumbo", "kayak", "khaki", "kiosk", "lengths", "lucky", "luxury", " lymph", " nightclub", "onyx", " ovary", "pajama", "pneumonia", " pshaw", " puppy", "scratch", "staff", "stretch"};
+
+class Hangman
+{
+    string answer;
+    char guess[20];
+    int len;
+
+public:
+    Hangman()
+    {
+        srand(time(0));
+        int rnd = rand() % 44;
+
+        answer = answers[rnd];
+
+        len = answer.length();
+
+        for (int i = 0; i < len; i++)
+            guess[i] = '_';
+
+        guess[len] = '\0';
+    }
+
+    void draw(int n)
+    {
+        switch (n)
+        {
+        case 1:
+            cout << " ___________" << endl;
+            cout << " |         |" << endl;
+            cout << " |         " << endl;
+            cout << " |         " << endl;
+            cout << " |         " << endl;
+            cout << "_|______________" << endl;
+            break;
+
+        case 2:
+            cout << " ___________" << endl;
+            cout << " |         |" << endl;
+            cout << " |         O " << endl;
+            cout << " |        " << endl;
+            cout << " |        " << endl;
+            cout << "_|______________" << endl;
+            break;
+
+        case 3:
+            cout << " ___________" << endl;
+            cout << " |         |" << endl;
+            cout << " |         O " << endl;
+            cout << " |         |" << endl;
+            cout << " |        " << endl;
+            cout << "_|______________" << endl;
+            break;
+
+        case 4:
+            cout << " ___________" << endl;
+            cout << " |         |" << endl;
+            cout << " |         O " << endl;
+            cout << " |        /|" << endl;
+            cout << " |        " << endl;
+            cout << "_|______________" << endl;
+            break;
+
+        case 5:
+            cout << " ___________" << endl;
+            cout << " |         |" << endl;
+            cout << " |         O " << endl;
+            cout << " |        /|\\" << endl;
+            cout << " |        " << endl;
+            cout << "_|______________" << endl;
+            break;
+
+        case 6:
+            cout << " ___________" << endl;
+            cout << " |         |" << endl;
+            cout << " |         O " << endl;
+            cout << " |        /|\\" << endl;
+            cout << " |        / " << endl;
+            cout << "_|______________" << endl;
+            break;
+
+        case 7:
+            cout << " ___________" << endl;
+            cout << " |         |" << endl;
+            cout << " |         O " << endl;
+            cout << " |        /|\\" << endl;
+            cout << " |        / \\" << endl;
+            cout << "_|______________" << endl;
+            break;
+        }
+    }
+
+    void play()
+    {
+        cout << guess << endl;
+        for (int count = 1; count < 7 && !isequal(answer, guess);)
+        {
+            char ch;
+            cout << "enter a character to guess\n";
+            cin >> ch;
+
+            int j = 0;
+            for (int i = 0; i < len; i++)
+            {
+                if (answer[i] == ch)
+                {
+                    guess[i] = ch;
+                    j++;
+                }
+            }
+
+            if (j == 0) // if character not found in answer
+                count++;
+
+            draw(count);
+
+            cout << "YOUR GUESS: " << guess << endl
+                 << endl;
+        }
+
+        if (isequal(answer, guess))
+            cout << "You guessed the answer\n";
+        else
+            cout << "You ran out of tries. The correct answer was: " << answer << endl;
+    }
+};
+
+int main()
+{
+    Hangman game;
+    game.play();
+
+    system("pause");
+    return 0;
+}
